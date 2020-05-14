@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TcLiteappViewConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TcLiteappViewConfig">
+        <id column="LITEAPP_VIEW_CONFIG_ID" property="liteappViewConfigId" />
+        <result column="LITEAPP_CONFIG_ID" property="liteappConfigId" />
+        <result column="VIEW_TYPE" property="viewType" />
+        <result column="GUID" property="guid" />
+        <result column="NAME" property="name" />
+        <result column="FRIENDLY_NAME" property="friendlyName" />
+        <result column="VERSION" property="version" />
+        <result column="WIDTH" property="width" />
+        <result column="HEIGHT" property="height" />
+        <result column="SMALL_ICON" property="smallIcon" />
+        <result column="BIG_ICON" property="bigIcon" />
+        <result column="THUMBNAIL" property="thumbnail" />
+        <result column="PATH" property="path" />
+        <result column="DISPLAY" property="display" />
+        <result column="SHOW_TYPE" property="showType" />
+        <result column="CLOSE_STRATEGY" property="closeStrategy" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_DATE" property="createDate" />
+    </resultMap>
+
+	<select id="queryTcLiteappViewConfigByReleaseIdAndViewType" resultMap="BaseResultMap">
+		 select v.* from tc_liteapp_view_config v,TC_LITEAPP_CONFIG c 
+		 where c.liteapp_config_id=v.liteapp_config_id and c.LITEAPP_RELEASE_ID = #{releaseId}
+		 AND V.VIEW_TYPE IN 
+		 <foreach collection="viewType" item="item" open="(" separator="," close=")">
+		 	#{item}
+		 </foreach>
+		 ORDER BY V.VIEW_TYPE,V.VERSION ASC
+	</select>
+</mapper>

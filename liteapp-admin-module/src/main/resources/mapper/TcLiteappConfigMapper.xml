@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TcLiteappConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TcLiteappConfig">
+        <id column="LITEAPP_CONFIG_ID" property="liteappConfigId" />
+        <result column="LITEAPP_RELEASE_ID" property="liteappReleaseId" />
+        <result column="FRIENDLY_NAME" property="friendlyName" />
+        <result column="SMALL_ICON" property="smallIcon" />
+        <result column="BIG_ICON" property="bigIcon" />
+        <result column="INFO_ICON" property="infoIcon" />
+        <result column="INTOR" property="intor" />
+        <result column="VERSION" property="version" />
+        <result column="HARDWARE_VERSION" property="hardwareVersion" />
+        <result column="SOFTWARE_VERSION" property="softwareVersion" />
+        <result column="APP_LEVEL" property="appLevel" />
+        <result column="API_LEVEL" property="apiLevel" />
+        <result column="APP_TYPE" property="appType" />
+        <result column="GUID" property="guid" />
+        <result column="SHORTCUT" property="shortcut" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="CREATE_BY" property="createBy" />
+    </resultMap>
+	
+	<select id="queryTcLiteappConfigById" resultType="com.sgm.liteapp.admin.model.entity.TcLiteappConfig">
+		 SELECT DISTINCT R.LITEAPP_RELEASE_ID,R.STATUS,R.LITEAPP_NAME,C.FRIENDLY_NAME,C.GUID,C.INTOR,C.VERSION,C.APP_TYPE,C.APP_LEVEL,
+		 C.API_LEVEL,C.SMALL_ICON,C.BIG_ICON,C.HARDWARE_VERSION,C.SOFTWARE_VERSION,C.INFO_ICON,TM.CODE_VALUE AS OEM_CODE,SUBSCRIBE_STATUS
+		 FROM TL_LITEAPP_RELEASE R INNER JOIN TC_LITEAPP_CONFIG C ON R.LITEAPP_RELEASE_ID=C.LITEAPP_RELEASE_ID
+	     LEFT JOIN TT_LITEAPP_PLATFORM P ON P.LITEAPP_RELEASE_ID=C.LITEAPP_RELEASE_ID
+	     LEFT JOIN TM_CODE TM ON TM.CODE_VALUE=P.OEM_CODE
+		 WHERE R.LITEAPP_RELEASE_ID= #{releaseId}
+	</select>
+
+</mapper>

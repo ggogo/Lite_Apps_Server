@@ -1,0 +1,41 @@
+server:
+  port: 9001
+
+logging:
+  path: /midware/app/logs
+  level:
+    root: INFO 
+
+servicegateway:
+  security:
+    white-list: /api/authorize/**, /js
+    authorize:
+      context-path: /api/authorize                     
+
+b2cidm:
+  service:
+    url:  http://idm-am.ngi.sgmlink.com/am
+    client-id: 39Gxf6rUT31aMeF1qG5VG5128D6uz5zoT4deOtfi7Gnz26vNi62xK20Tf23
+    client-secret: 3t89t94Xml7xcMYa75sNJC8Ycqg4Nagi131sVcKiHJjfWda0VnCNgp3Sy7a
+
+spring: 
+      
+  # Service Gateway Routes Configuration
+  cloud:
+    gateway:
+      routes:
+        # Healthcheck
+        - id: healthcheck
+          uri: local://healthcheck
+          predicates:
+            - Path=/healthcheck
+          
+        # Admin Console(Covisint)
+        - id: diam-oauth2
+          uri: http://diam-oauth2.inapps.jqpqa.c.saic-gm.net/
+          predicates:
+            - Path=/api/am2/**
+          filters:
+            - StripPrefix=1           
+        
+                

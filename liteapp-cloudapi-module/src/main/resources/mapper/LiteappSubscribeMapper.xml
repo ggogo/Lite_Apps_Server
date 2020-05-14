@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.cloudapi.dao.mapper.LiteappSubscribeMapper">
+
+	<select id="getUserSubscribedLiteappList" resultType="com.sgm.liteapp.cloudapi.dao.entity.LiteappSubscribeEntity">
+		select * from TT_LITEAPP_SUBSCRIBE where
+			OEM_CODE = #{query.oemCode, jdbcType=VARCHAR}
+				AND
+			HARDWARE_CODE = #{query.hardwareCode, jdbcType=VARCHAR}
+				AND
+			HARDWARE_VERSION = #{query.hardwareVersion, jdbcType=VARCHAR}
+				AND
+			SOFTWARE_CODE = #{query.softwareCode, jdbcType=VARCHAR}		
+				AND
+			SOFTWARE_VERSION = #{query.softwareVersion, jdbcType=VARCHAR}
+				AND
+			IDP_USER_ID = #{query.idpUserId, jdbcType=VARCHAR}		
+	</select>
+
+	<insert id="subscribeApp">
+		INSERT INTO Tt_Liteapp_Subscribe
+		(Idp_User_Id,Oem_Code,Software_Code
+		,Hardware_Code,Software_Version,Hardware_Version
+		,Liteapp_Subscribe_Id,Create_Date,Last_Update_By
+		,Last_Update_Date,Is_Valid,Create_By
+		,Liteapp_Guid)
+		VALUES
+		(#{entity.idpUserId, jdbcType=VARCHAR},#{entity.oemCode, jdbcType=VARCHAR},#{entity.softwareCode, jdbcType=VARCHAR}
+		,#{entity.hardwareCode, jdbcType=VARCHAR},#{entity.softwareVersion, jdbcType=VARCHAR} ,#{entity.hardwareVersion, jdbcType=VARCHAR}
+		,#{entity.liteappSubscribeId, jdbcType=VARCHAR},#{entity.createDate, jdbcType=DATE },#{entity.lastUpdateBy, jdbcType=VARCHAR}
+		,#{entity.lastUpdateDate, jdbcType=DATE } ,#{entity.isValid, jdbcType=INTEGER },#{entity.createBy, jdbcType=VARCHAR },
+		#{entity.liteappGuid, jdbcType=VARCHAR})
+
+	</insert>
+
+	<insert id="subscribeAppLog">
+		INSERT INTO Tl_Liteapp_Subscribe_Log
+		(Idp_User_Id,Oem_Code,Software_Code
+		,Hardware_Code,Software_Version,Hardware_Version
+		,Liteapp_Subscribe_Log_Id,Action_Date,Action_Type
+		,Partition_Flag,Liteapp_Guid
+		,Liteapp_Version)
+		VALUES
+		(#{entity.idpUserId, jdbcType=VARCHAR},#{entity.oemCode, jdbcType=VARCHAR},#{entity.softwareCode, jdbcType=VARCHAR}
+		,#{entity.hardwareCode, jdbcType=VARCHAR},#{entity.softwareVersion, jdbcType=VARCHAR} ,#{entity.hardwareVersion, jdbcType=VARCHAR}
+		,#{entity.liteAppSubscribeLogId, jdbcType=VARCHAR},#{entity.actionDate, jdbcType=DATE },#{entity.actionType, jdbcType=VARCHAR}
+		,#{entity.partitionFlag, jdbcType=INTEGER },#{entity.liteappGuid, jdbcType=VARCHAR },
+		#{entity.liteAppVersion, jdbcType=VARCHAR})
+
+	</insert>
+
+	<delete id="unsubscribeApp">
+		DELETE FROM Tt_Liteapp_Subscribe WHERE
+		OEM_CODE = #{entity.oemCode, jdbcType=VARCHAR}
+		AND
+		HARDWARE_CODE = #{entity.hardwareCode, jdbcType=VARCHAR}
+		AND
+		HARDWARE_VERSION = #{entity.hardwareVersion, jdbcType=VARCHAR}
+		AND
+		SOFTWARE_CODE = #{entity.softwareCode, jdbcType=VARCHAR}
+		AND
+		SOFTWARE_VERSION = #{entity.softwareVersion, jdbcType=VARCHAR}
+		AND
+		IDP_USER_ID = #{entity.idpUserId, jdbcType=VARCHAR}
+		AND
+		Liteapp_Guid=#{entity.liteappGuid, jdbcType=VARCHAR}
+	</delete>
+
+	<select id="getUserSubscribedAndBuildInLatestAppList" resultType="com.sgm.liteapp.cloudapi.dto.LiteAppUpdateListDTO">
+		SELECT
+		a.Liteapp_Guid_Id AS appGuid, a.Liteapp_Version AS latestVersion
+		FROM Tt_Store_Liteapp a, Tt_Liteapp_Subscribe b
+		WHERE
+		a.OEM_CODE = #{query.oemCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_CODE = #{query.hardwareCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_VERSION = #{query.hardwareVersion, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_CODE = #{query.softwareCode, jdbcType=VARCHAR}
+		AND
+		b.Idp_User_Id=#{query.idpUserId, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_VERSION = #{query.softwareVersion, jdbcType=VARCHAR}
+		AND a.Liteapp_Guid = b.Liteapp_Guid AND a.Oem_Code=b.Oem_Code AND a.Software_Code=b.Software_Code AND a.Hardware_Code=b.Hardware_Code AND a.Software_Version=b.Software_Version AND a.Hardware_Version=b.Hardware_Version
+		UNION ALL
+		SELECT a.Liteapp_Guid AS appGuid, a.Liteapp_Version AS latestVersion
+		FROM Tt_Store_Liteapp a, Tt_Buildin_Liteapp b
+		WHERE
+		a.OEM_CODE = #{query.oemCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_CODE = #{query.hardwareCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_VERSION = #{query.hardwareVersion, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_CODE = #{query.softwareCode, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_VERSION = #{query.softwareVersion, jdbcType=VARCHAR}
+		AND a.Liteapp_Guid = b.Liteapp_Guid AND a.Oem_Code=b.Oem_Code AND a.Software_Code=b.Software_Code AND a.Hardware_Code=b.Hardware_Code AND a.Software_Version=b.Software_Version AND a.Hardware_Version=b.Hardware_Version
+
+
+	</select>
+	
+</mapper>

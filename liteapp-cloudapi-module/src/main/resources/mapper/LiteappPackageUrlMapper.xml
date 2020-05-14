@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.cloudapi.dao.mapper.LiteappPackageUrlMapper">
+
+	<select id="getLiteappPackageUrls" resultType="com.sgm.liteapp.cloudapi.dao.entity.LiteappPackageUrlEntity">
+		select * from TT_LITEAPP_PACKAGE_URL where
+			OEM_CODE = #{query.oem, jdbcType=VARCHAR}
+				AND
+			HARDWARE_CODE = #{query.hardwareCode, jdbcType=VARCHAR}
+				AND
+			HARDWARE_VERSION = #{query.hardwareVersion, jdbcType=VARCHAR}
+				AND
+			SOFTWARE_CODE = #{query.softwareCode, jdbcType=VARCHAR}		
+				AND
+			SOFTWARE_VERSION = #{query.softwareVersion, jdbcType=VARCHAR}		
+				AND
+			LITEAPP_GUID = #{query.appGuid, jdbcType=VARCHAR}
+				AND
+			TO_VERSION = #{query.appVersion, jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

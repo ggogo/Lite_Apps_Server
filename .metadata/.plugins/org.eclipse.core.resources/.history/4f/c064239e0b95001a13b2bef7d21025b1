@@ -1,0 +1,44 @@
+server.servlet.context-path=/admin
+server.port=9002
+server.tomcat.uri-encoding=UTF-8
+server.tomcat.max-connections=2000
+# server.max-http-header-size=67108864
+
+# Database configuration
+#spring.datasource.url=jdbc:oracle:thin:@10.203.24.27:1545:DV027
+spring.datasource.url=jdbc\:oracle\:thin\:@10.245.39.139\:1522/covisint
+spring.datasource.username=sgm_lightapp
+spring.datasource.password=sgm_lightapp
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.tomcat.initial-size=5
+spring.datasource.tomcat.max-active=10
+spring.datasource.tomcat.log-abandoned=true
+spring.datasource.tomcat.remove-abandoned=true
+spring.datasource.tomcat.remove-abandoned-timeout=60
+
+# MyBatis Configuration
+mybatis-plus.mapper-locations=classpath*:mapper/*Mapper.xml
+mybatis-plus.type-aliases-package=com.sgm.liteapp.admin.dao.entity
+mybatis-plus.configuration.map-underscore-to-camel-case: true
+mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+pki.sign.algorithm=sm3
+pki.sign.url=http://10.203.96.153:9000/api/sign-front/v1/signs/pkcs7/ecdsa-sm2
+pki.sign.appid=ABCDE
+pki.sign.appkey=ZmMsKgSqnEKZvK7g8dROvQ==
+
+# Logging
+logging.path=/midware/app/logs
+logging.level.root=INFO
+# logging.level.com.sgm.liteapp=DEBUG
+
+#\u542f\u7528\u6587\u4ef6\u4e0a\u4f20
+spring.http.multipart.enabled=true 
+#\u6587\u4ef6\u5927\u4e8e\u8be5\u9608\u503c\u65f6\uff0c\u5c06\u5199\u5165\u78c1\u76d8\uff0c\u652f\u6301KB/MB\u5355\u4f4d
+spring.http.multipart.file-size-threshold=0 
+#\u81ea\u5b9a\u4e49\u4e34\u65f6\u8def\u5f84
+spring.http.multipart.location= 
+#\u6700\u5927\u6587\u4ef6\u5927\u5c0f(\u5355\u4e2a)
+spring.http.multipart.maxFileSize=10MB
+#\u6700\u5927\u8bf7\u6c42\u5927\u5c0f(\u603b\u4f53)
+spring.http.multipart.maxRequestSize=10MB

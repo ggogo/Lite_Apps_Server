@@ -1,0 +1,10 @@
+spring.profiles.active=@profileActive@
+
+# global common configuration
+spring.application.name=SAIC-GM LITEAPP ADMIN
+logging.config=classpath:spring-boot-logback.xml
+
+#\u662f\u5426\u542f\u7528Multipart\u6587\u4ef6\u4e0a\u4f20
+spring.servlet.multipart.enabled = true
+spring.servlet.multipart.max-file-size = 10MB
+spring.servlet.multipart.max-request-size = 10MB

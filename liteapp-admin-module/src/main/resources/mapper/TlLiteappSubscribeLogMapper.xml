@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TlLiteappSubscribeLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TlLiteappSubscribeLog">
+        <id column="LITEAPP_SUBSCRIBE_LOG_ID" property="liteappSubscribeLogId" />
+        <result column="IDP_USER_ID" property="idpUserId" />
+        <result column="OEM_CODE" property="oemCode" />
+        <result column="SOFTWARE_CODE" property="softwareCode" />
+        <result column="HARDWARE_CODE" property="hardwareCode" />
+        <result column="SOFTWARE_VERSION" property="softwareVersion" />
+        <result column="HARDWARE_VERSION" property="hardwareVersion" />
+        <result column="ACTION_TYPE" property="actionType" />
+        <result column="ACTION_DATE" property="actionDate" />
+        <result column="PARTITION_FLAG" property="partitionFlag" />
+        <result column="LITEAPP_GUID" property="liteappGuidId" />
+        <result column="LITEAPP_VERSION" property="liteappVersion" />
+    </resultMap>
+
+</mapper>

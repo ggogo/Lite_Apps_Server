@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TmVersionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TmVersion">
+        <id column="VERSION_ID" property="versionId" />
+        <result column="VERSION_NUMBER" property="versionNumber" />
+        <result column="RELEASE_NOTE" property="releaseNote" />
+        <result column="VERSION_TYPE" property="versionType" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+    </resultMap>
+
+</mapper>

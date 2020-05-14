@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TlLiteappReleaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TlLiteappRelease">
+        <id column="LITEAPP_RELEASE_ID" property="liteappReleaseId" />
+        <result column="LITEAPP_NAME" property="liteappName" />
+        <result column="APP_VERSION_ID" property="appVersionId" />
+        <result column="APP_VERSION_NUMBER" property="appVersionNumber" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="RELEASE_NODE" property="releaseNode" />
+        <result column="RELEASE_DATE" property="releaseDate" />
+        <result column="APP_CONFIG_LOCATION" property="appConfigLocation" />
+        <result column="APP_CARD_URL" property="appCardUrl" />
+        <result column="PACKAGE_URL" property="packageUrl" />
+        <result column="INFOFLOW_CARD_URL" property="infoflowCardUrl" />
+    </resultMap>
+    
+    <select id="liteappMainQuery" resultType="com.sgm.liteapp.admin.model.entity.TlLiteappRelease">
+      SELECT R.LITEAPP_RELEASE_ID,C.GUID,R.LITEAPP_NAME,C.FRIENDLY_NAME,C.APP_TYPE,C.VERSION,R.STATUS,
+      C.HARDWARE_VERSION,C.SOFTWARE_VERSION,R.CREATE_DATE,R.CREATE_BY FROM TL_LITEAPP_RELEASE R
+      INNER JOIN TC_LITEAPP_CONFIG C ON R.LITEAPP_RELEASE_ID=C.LITEAPP_RELEASE_ID WHERE 1=1 
+	  <include refid="query_where_sql"/>
+    </select>
+	
+	<sql id="query_where_sql">
+		<if test="dto.guid != null and dto.guid != ''">
+			AND C.GUID = #{dto.guid}
+		</if>
+		<if test="dto.liteappName != null and dto.liteappName != ''">
+			AND R.LITEAPP_NAME = #{dto.liteappName}
+		</if>
+		<if test="dto.status != null and dto.status != ''">
+			AND R.STATUS = #{dto.status}
+		</if>
+		<if test="dto.version != null and dto.version != ''">
+			AND C.VERSION = #{dto.version}
+		</if>
+		<if test="dto.appType != null and dto.appType !=''">
+			AND C.APP_TYPE = #{dto.appType}
+		</if>
+	</sql>
+	
+	<update id="updateliteappReleasePackageURL">
+        update TL_LITEAPP_RELEASE set PACKAGE_URL = #{packageUrl} where LITEAPP_RELEASE_ID = #{releaseId}      
+	</update>
+
+</mapper>

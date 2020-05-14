@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.cloudapi.dao.mapper.LiteAppUserCardMapper">
+
+	<select id="queryCardAssociatedApp" resultType="com.sgm.liteapp.cloudapi.dto.LiteAppBaseInfoDTO">
+		SELECT c.Guid AS appGuid,c.Version AS appVersion FROM  Tc_Liteapp_View_Config b, Tc_Liteapp_Config c
+		WHERE b.Guid= #{cardGuid, jdbcType=VARCHAR}
+		AND b.Version=#{cardVersion, jdbcType=VARCHAR}
+		AND b.Liteapp_Config_Id=c.Liteapp_Config_Id
+	</select>
+
+	<insert id="insertUserCardListWithForEach" parameterType="arraylist">
+
+		INSERT INTO Tc_User_Card_Config (User_Card_Config_Id,Idp_User_Id,Card_Guid,Card_Version) VALUES
+		<foreach collection='list' item='item' index='index' separator=','>
+			(#{item.userCardConfigId}, #{item.idpUserId}, #{item.cardGuid}, #{item.cardVersion})
+		</foreach>
+
+	</insert>
+
+	<select id="queryUserCardsByAppGuidAndAppVersion" resultType="com.sgm.liteapp.cloudapi.dao.entity.LiteAppUserCardEntity">
+		SELECT c.*
+		FROM Tc_Liteapp_Config a, Tc_Liteapp_View_Config b , Tc_User_Card_Config c
+		WHERE
+		a.Guid = #{appGuid, jdbcType=VARCHAR}
+		AND
+		a.Version = #{appVersion, jdbcType=VARCHAR}
+		AND a.LITEAPP_CONFIG_ID = b.LITEAPP_CONFIG_ID AND c.Card_Guid=b.Guid AND c.Card_Version=b.Version
+	</select>
+
+	<delete id="batchDeleteUserCardByGUIDList" parameterType="arraylist">
+		DELETE FROM Tc_User_Card_Config WHERE User_Card_Config_Id IN
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="queryUserCardByIdpUserIdAndCardInfo" resultType="com.sgm.liteapp.cloudapi.dao.entity.LiteAppUserCardEntity">
+		SELECT * FROM Tc_User_Card_Config
+		WHERE Idp_User_Id=#{idpUserId, jdbcType=VARCHAR}
+		AND Card_Guid=#{cardGuid, jdbcType=VARCHAR}
+		AND Card_Version=#{cardVersion, jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryUserCardByIdpUserId" resultType="com.sgm.liteapp.cloudapi.dao.entity.LiteAppUserCardEntity">
+		SELECT * FROM Tc_User_Card_Config
+		WHERE Idp_User_Id=#{idpUserId, jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateSortNumberOfUserCardByIdpUserIdAndCardInfo">
+		UPDATE Tc_User_Card_Config SET Sort_Number=#{sortNumber, jdbcType=INTEGER}
+		WHERE Idp_User_Id=#{idpUserId, jdbcType=VARCHAR}
+		AND Card_Guid=#{cardGuid, jdbcType=VARCHAR}
+		AND Card_Version=#{cardVersion, jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateDisplayOfUserCardByIdpUserIdAndCardInfo">
+		UPDATE Tc_User_Card_Config SET Display=#{display, jdbcType=INTEGER}
+		WHERE Idp_User_Id=#{idpUserId, jdbcType=VARCHAR}
+		AND Card_Guid=#{cardGuid, jdbcType=VARCHAR}
+		AND Card_Version=#{cardVersion, jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insertSortNumberOfUserCardByIdpUserIdAndCardInfo">
+		INSERT INTO Tc_User_Card_Config (User_Card_Config_Id,Idp_User_Id,Card_Guid,Card_Version,Sort_Number) VALUES
+		(#{id,jdbcType=VARCHAR},
+		#{idpUserId, jdbcType=VARCHAR},
+		#{cardGuid, jdbcType=VARCHAR},
+		#{cardVersion, jdbcType=VARCHAR},
+		#{sortNumber, jdbcType=INTEGER}
+		)
+	</insert>
+
+	<insert id="insertDisplayOfUserCardByIdpUserIdAndCardInfo">
+		INSERT INTO Tc_User_Card_Config (User_Card_Config_Id,Idp_User_Id,Card_Guid,Card_Version,Display) VALUES
+		(#{id,jdbcType=VARCHAR},
+		#{idpUserId, jdbcType=VARCHAR},
+		#{cardGuid, jdbcType=VARCHAR},
+		#{cardVersion, jdbcType=VARCHAR},
+		#{display, jdbcType=INTEGER}
+		)
+	</insert>
+
+	<select id="queryUserCardsIncludingBuildInByAppInfo" resultType="com.sgm.liteapp.cloudapi.dto.LiteAppCardDisplayDTO">
+		SELECT d.View_Type AS cardType,d.Guid AS cardGuid,d.Version AS cardVersion,c.Guid AS appGuid,c.Version AS appVersion, e.Sort_Number AS sortNo,e.Display AS display
+		FROM Tt_Store_Liteapp a, Tt_Liteapp_Subscribe b, Tc_Liteapp_Config c, Tc_Liteapp_View_Config d LEFT JOIN Tc_User_Card_Config e ON d.Guid =e.Card_Guid AND d.Version=e.Card_Version
+		WHERE
+		a.OEM_CODE = #{oemCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_CODE = #{hardwareCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_VERSION = #{hardwareVersion, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_CODE = #{softwareCode, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_VERSION = #{softwareVersion, jdbcType=VARCHAR}
+		AND
+		b.Idp_User_Id=#{idpUserId, jdbcType=VARCHAR}
+		AND
+		a.Liteapp_Guid = b.Liteapp_Guid AND a.Oem_Code=b.Oem_Code AND a.Software_Code=b.Software_Code AND a.Hardware_Code=b.Hardware_Code AND a.Software_Version=b.Software_Version AND a.Hardware_Version=b.Hardware_Version
+		AND a.Liteapp_Release_Id=c.Liteapp_Release_Id AND d.Liteapp_Config_Id=c.Liteapp_Config_Id
+		UNION ALL
+		SELECT d.View_Type AS cardType,d.Guid AS cardGuid,d.Version AS cardVersion,c.Guid AS appGuid,c.Version AS appVersion, e.Sort_Number AS sortNo,e.Display AS display
+		FROM Tt_Store_Liteapp a, Tt_Buildin_Liteapp b, Tc_Liteapp_Config c, Tc_Liteapp_View_Config d LEFT JOIN Tc_User_Card_Config e ON d.Guid =e.Card_Guid AND d.Version=e.Card_Version
+		WHERE
+		a.OEM_CODE = #{oemCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_CODE = #{hardwareCode, jdbcType=VARCHAR}
+		AND
+		a.HARDWARE_VERSION = #{hardwareVersion, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_CODE = #{softwareCode, jdbcType=VARCHAR}
+		AND
+		a.SOFTWARE_VERSION = #{softwareVersion, jdbcType=VARCHAR}
+		AND
+		a.Liteapp_Guid = b.Liteapp_Guid AND a.Oem_Code=b.Oem_Code AND a.Software_Code=b.Software_Code AND a.Hardware_Code=b.Hardware_Code AND a.Software_Version=b.Software_Version AND a.Hardware_Version=b.Hardware_Version
+		AND a.Liteapp_Release_Id=c.Liteapp_Release_Id AND d.Liteapp_Config_Id=c.Liteapp_Config_Id
+	</select>
+	
+</mapper>

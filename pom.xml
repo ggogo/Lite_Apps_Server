@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sgm.liteapp</groupId>
+	<artifactId>sgm-liteapp</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<name>SAIC-GM LiteAPP Cloud Service</name>
+	<modules>
+		<module>liteapp-commons</module>
+		<module>liteapp-admin-module</module>
+		<module>liteapp-cloudapi-module</module>	
+		<module>liteapp-service-gateway</module>
+	</modules>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.9.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>			
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>		
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>			
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>oracle</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>12.2.0.1</version>
+		</dependency>
+
+	</dependencies>
+	
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profileActive>dev</profileActive>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<properties>
+				<profileActive>qa</profileActive>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profileActive>prod</profileActive>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>sgm-maven</id>
+			<url>http://nexus.sgm.saic-gm.com/repository/sgm-maven/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		
+		<repository>
+			<id>sgm-maven-3rd-manual</id>
+			<url>http://nexus.sgm.saic-gm.com/repository/sgm-maven-3rd-manual/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sgm-maven</id>
+			<url>http://nexus.sgm.saic-gm.com/repository/sgm-maven/</url>
+			<layout>default</layout>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

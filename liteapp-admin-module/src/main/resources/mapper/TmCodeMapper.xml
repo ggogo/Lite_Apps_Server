@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TmCodeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TmCode">
+        <id column="CODE_ID" property="codeId" />
+        <result column="CODE_VALUE" property="codeValue" />
+        <result column="CODE_TYPE" property="codeType" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+    </resultMap>
+
+	<select id="queryTmCode" resultType="com.sgm.liteapp.admin.model.entity.TmCode">
+		SELECT CODE_ID,CODE_VALUE,CODE_TYPE,IS_VALID,CREATE_BY,CREATE_DATE,LAST_UPDATE_BY,LAST_UPDATE_DATE FROM TM_CODE
+		WHERE 1=1 
+		<include refid="query_where_sql"/>
+		ORDER BY ${dto.sortName} ${dto.sort}
+	</select>
+	
+	<sql id="query_where_sql">
+		<if test="dto.codeType != null and dto.codeType != ''">
+			AND CODE_TYPE = #{dto.codeType}
+		</if>
+	</sql>
+	
+	<select id="queryTmCodeByCodeType" resultType="com.sgm.liteapp.admin.model.entity.TmCode">
+		SELECT CODE_ID,CODE_VALUE,CODE_TYPE,IS_VALID,CREATE_BY,CREATE_DATE,LAST_UPDATE_BY,LAST_UPDATE_DATE FROM TM_CODE
+		WHERE 1=1 AND CODE_TYPE = #{codeType}
+		ORDER BY CODE_VALUE ASC
+	</select>
+	
+</mapper>

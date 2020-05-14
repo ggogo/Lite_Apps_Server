@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.cloudapi.dao.mapper.LiteappConfigMapper">
+
+	<select id="getLiteappConfigAndViewJoinListByReleaseId"
+		resultType="com.sgm.liteapp.cloudapi.dto.LiteappConfigAndViewDTO">
+		SELECT a.*, 
+			b.GUID as VIEW_GUID,
+			b.VIEW_TYPE,
+			b.NAME as VIEW_NAME,
+			b.FRIENDLY_NAME as VIEW_FRIENDLY_NAME,
+			b.VERSION as VIEW_VERSION,
+			b.WIDTH,
+			b.HEIGHT,
+			b.SMALL_ICON as VIEW_SMALL_ICON,
+			b.BIG_ICON as VIEW_BIG_ICON,
+			b.THUMBNAIL,
+			b.PATH,
+			b.DISPLAY,
+			b.SHOW_TYPE,
+			b.CLOSE_STRATEGY,
+			c.LITEAPP_NAME,
+			c.PACKAGE_URL
+		FROM 
+			TC_LITEAPP_CONFIG a, TC_LITEAPP_VIEW_CONFIG b, TL_LITEAPP_RELEASE c
+		WHERE 
+			a.LITEAPP_RELEASE_ID = #{releaseId, jdbcType=VARCHAR}
+		AND
+			a.LITEAPP_CONFIG_ID = b.LITEAPP_CONFIG_ID
+		AND 
+			a.LITEAPP_RELEASE_ID = c.LITEAPP_RELEASE_ID
+	</select>
+
+
+
+</mapper>

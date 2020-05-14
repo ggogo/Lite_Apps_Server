@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TcUserCardConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TcUserCardConfig">
+        <id column="USER_CARD_CONFIG_ID" property="userCardConfigId" />
+        <result column="IDP_USER_ID" property="idpUserId" />
+        <result column="CARD_GUID" property="cardGuid" />
+        <result column="SORT_NUMBER" property="sortNumber" />
+        <result column="DISPLAY" property="display" />
+        <result column="CARD_VERSION" property="cardVersion" />
+    </resultMap>
+
+</mapper>

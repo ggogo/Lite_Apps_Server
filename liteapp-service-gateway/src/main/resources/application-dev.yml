@@ -1,0 +1,50 @@
+server:
+  port: 9001
+
+logging:
+  path: /midware/app/logs
+  level:
+    root: INFO 
+
+servicegateway:
+  security:
+    white-list: /api/authorize/**, /js
+    sync-idm-token-expires: true
+    authorize:
+      context-path: /api/authorize                     
+
+b2cidm:
+  service:
+    url: http://idm-am.qa.sgmlink.com/am
+    client-id: unma967s9WZ7YdBb7qCpiHrQ8pev1XJF4I2n0d3I7O06QfDP4gOXElH7c50
+    client-secret: 5g6m6uIKyUDuJg2yIp3iU80x63Ojv5gUHZ41SOJ262V2AvibHe18GpHQ4j0
+
+spring: 
+      
+  # Service Gateway Routes Configuration
+  cloud:
+    gateway:
+      routes:
+        # Healthcheck
+        - id: healthcheck
+          uri: local://healthcheck
+          predicates:
+            - Path=/healthcheck
+            
+        # 轻应云端后台
+        - id: lite-apps-platform-server
+          uri: http://lite-apps-platform-server-dev-yunxiao.inapps.jqpqa.c.saic-gm.net
+          predicates:
+            - Path=/api/platform/**
+          filters:
+            - StripPrefix=1
+          
+        # 轻应用后台
+        - id: lite-apps-server
+          uri: http://lite-apps-server-dev-yunxiao.inapps.jqpqa.c.saic-gm.net
+          predicates:
+            - Path=/api/liteAppServer/**
+          filters:
+            - StripPrefix=1           
+        
+                

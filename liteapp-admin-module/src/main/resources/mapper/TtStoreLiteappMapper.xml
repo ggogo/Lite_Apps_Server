@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgm.liteapp.admin.model.mapper.TtStoreLiteappMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sgm.liteapp.admin.model.entity.TtStoreLiteapp">
+        <id column="STORE_LITEAPP_ID" property="storeLiteappId" />
+        <result column="LITEAPP_NAME" property="liteappName" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="LITEAPP_GUID" property="liteappGuidId" />
+        <result column="OEM_CODE" property="oemCode" />
+        <result column="SOFTWARE_CODE" property="softwareCode" />
+        <result column="HARDWARE_CODE" property="hardwareCode" />
+        <result column="LITEAPP_RELEASE_ID" property="liteappReleaseId" />
+        <result column="LITEAPP_VERSION" property="liteappVersion" />
+        <result column="HARDWARE_VERSION" property="hardwareVersion" />
+        <result column="SOFTWARE_VERSION" property="softwareVersion" />
+    </resultMap>
+
+</mapper>
